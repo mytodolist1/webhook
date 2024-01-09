@@ -1,11 +1,9 @@
 package webhook
 
-type Request struct {
-	To      string `json:"to"`
-	Message string `json:"message"`
+type Reply struct {
+	Message string `bson:"messsage"`
 }
 
-type Response struct {
-	Status  bool   `json:"status"`
-	Message string `json:"message"`
+type Header struct {
+	Secret string `reqHeader:"secret"`
 }

@@ -7,29 +7,27 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/mytodolist1/be_p3/model"
+	"github.com/aiteung/atmessage"
+	"github.com/aiteung/module/model"
 )
 
 func Post(w http.ResponseWriter, r *http.Request) {
-	var user model.User
-	var res Response
+	var msg model.IteungMessage
+	var res atmessage.Response
 
-	err := json.NewDecoder(r.Body).Decode(&user)
+	err := json.NewDecoder(r.Body).Decode(&msg)
 	if err != nil {
 		log.Println(err)
 	}
 
-	if r.Header.Get("Secret") == os.Getenv("SECRET") {
-		res = SendMessage(user)
+	if os.Getenv("SECRET") != "" {
+		res = SendMessage(msg)
 	} else {
-		res = Response{
-			Status:  false,
-			Message: "Secret tidak valid",
-		}
+		res.Response = "Secret not match"
 	}
 
 	json.NewEncoder(w).Encode(res)
 
-	fmt.Fprintf(w, res.Message, res.Status)
+	fmt.Fprintf(w, res.Response)
 	return
 }
