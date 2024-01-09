@@ -14,8 +14,12 @@ func SendMessage(msg model.IteungMessage) (resp atmessage.Response) {
 
 	var user user.User
 
+	msg.Phone_number = user.Phonenumber
+
+	phone := msg.Phone_number
+
 	dt := &wa.TextMessage{
-		To:       msg.Chat_number,
+		To:       phone,
 		IsGroup:  false,
 		Messages: "Hello " + user.Username + " kamu sudah berhasil register di MyTodoList, silahkan login atau tekan link ini https://mytodolist.my.id/login.html untuk melanjutkan.",
 	}
